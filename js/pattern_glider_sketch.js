@@ -89,7 +89,7 @@ function init() {
 		} 
   
 		// A little trick to subtract the current cell's state since
-		// we added it in the above loop
+		// we added it in the above loop, delete the cell it self
 		neighbors -= board[x][y];
 		// Rules of Life
 		if      ((board[x][y] == 1) && (neighbors <  2)) next[x][y] = 0;           // Loneliness die
