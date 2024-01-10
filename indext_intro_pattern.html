@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+      integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/intro.css">
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+      integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+
+    <title>pattern introduction</title>
+    <nav class="navbar navbar-expand-sm navbar-light text-light bg-secondary">
+      <div class="container-fluid">
+        <img
+          class="logo-image"
+          src="pictures/logo.png"
+          alt="Logo-image"
+        />
+        <!-- <a class="navbar-brand" href="#">primary</a> -->
+        <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarID"
+                    aria-controls="navbarID" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button> -->
+        <div
+          class="collapse navbar-collapse"
+          id="navbarID"
+        >
+          <div class="navbar-nav">
+            <a
+              class="nav-link active"
+              aria-current="page"
+              href="index_home _test.html"
+              >Home
+            </a>
+            <a
+              class="nav-link active"
+              aria-current="page"
+              href="index_random.html"
+              >Introduction
+            </a>
+            <a
+              class="nav-link active"
+              aria-current="page"
+              href="index_random.html"
+              >Random Pattern
+            </a>
+            <a
+              class="nav-link active"
+              aria-current="page"
+              href="index_glider.html"
+              >Glider Pattern
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- <h1 class =" text-secondary ">About the inventor</h1> -->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2">
+          <div class="list-group">
+            <button
+              type="button"
+              class="list-group-item list-group-item-action active bg-secondary"
+              id="still_lifes"
+            >
+              Still lifes
+            </button>
+            <button
+              type="button"
+              class="list-group-item list-group-item-action"
+              id="oscillators"
+            >
+              Oscillators
+            </button>
+            <button
+              type="button"
+              class="list-group-item list-group-item-action bg-secondary"
+              id="spaceships"
+            >
+              Spaceships
+            </button>
+          </div>
+        </div>
+        <div class="col-md-8 text-center">
+          <div>
+            <p
+              id="introductions"
+              class="d-block"
+            >
+              Many different types of patterns occur in the Game of Life, which
+              are classified according to their behaviour. Common pattern types
+              include: still lifes, which do not change from one generation to
+              the next; oscillators, which return to their initial state after a
+              finite number of generations; and spaceships, which translate
+              themselves across the grid.
+            </p>
+            <p
+              id="text_stilllifes"
+              class="d-none"
+            >
+              still life.
+            </p>
+            <p
+              id="text_oscillators"
+              class="d-none"
+            >
+              oscillarors.
+            </p>
+            <p
+              id="text_spaceships"
+              class="d-none"
+            >
+              spaceships.
+            </p>
+          </div>
+
+          <div>
+            <img
+              src="pictures/pic_1.jpeg"
+              alt="Picture_1"
+              class="img-fluid rounded mx-auto d-block"
+              id="center-image"
+            />
+            <img
+              src="pictures/still_1.png"
+              alt="still_1"
+              class="img-fluid rounded mx-auto d-none still-image"
+              id="still-1"
+            />
+            <img
+              src="pictures/still_2.png"
+              alt="still_2"
+              class="img-fluid rounded mx-auto d-none still-image"
+              id="still-2"
+            />
+            <img
+              src="pictures/still_3.png"
+              alt="still_3"
+              class="img-fluid rounded mx-auto d-none still-image"
+              id="still-3"
+            />
+            <img
+              src="pictures/still_4.png"
+              alt="still_4"
+              class="img-fluid rounded mx-auto d-none still-image"
+              id="still-4"
+            />
+            <img
+            src="pictures/osc_1.png"
+            alt="osc_1"
+            class="img-fluid rounded mx-auto d-none osc-image"
+            id="osc-1"
+          />
+
+          <img
+            src="pictures/osc_2.png"
+            alt="osc_2"
+            class="img-fluid rounded mx-auto d-none osc-image"
+            id="osc-2"
+          />
+          <img
+            src="pictures/osc_3.png"
+            alt="osc_3"
+            class="img-fluid rounded mx-auto d-none osc-image"
+            id="osc-3"
+          />
+          <img
+            src="pictures/osc_4.png"
+            alt="osc_4"
+            class="img-fluid rounded mx-auto d-none osc-image"
+            id="osc-4"
+          />
+
+          <img
+            src="pictures/space_1.png"
+            alt="space_1"
+            class="img-fluid rounded mx-auto d-none space-image"
+            id="space-1"
+          />
+          <img
+            src="pictures/space_2.png"
+            alt="space_2"
+            class="img-fluid rounded mx-auto d-none space-image"
+            id="space-2"
+          />
+          <img
+            src="pictures/space_3.png"
+            alt="space_3"
+            class="img-fluid rounded mx-auto d-none space-image"
+            id="space-3"
+          />
+          <img
+            src="pictures/space_4.png"
+            alt="space_4"
+            class="img-fluid rounded mx-auto d-none space-image"
+            id="space-4"
+          />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="css/home_test.css" 
+    />
+
+    <script src="libraries/p5.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
+    <script src="libraries/quicksettings.js"></script>
+    <script src="libraries/p5.gui.js"></script>
+  </head>
+
+  <body>
+    <script src="js/intro_pattern.js"></script>
+  </body>
+</html>

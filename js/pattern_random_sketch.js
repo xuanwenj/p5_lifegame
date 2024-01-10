@@ -1,4 +1,5 @@
-let w, columns, rows, board, next, isPaused;
+let w, columns, rows, board, next;
+let isPaused = false;
 
 /**
  * set up the canvas and data structures for drawing
@@ -14,7 +15,7 @@ function setup() {
   rows = floor(height / w); //20
 
   // Wacky way to make a 2D array is JS
-  // make an array represents colunms, 
+  // make an array represents colunms,
   // for loop the array while adding a new array represents row and assign it to the colunm[i]
   board = new Array(columns);
   for (let i = 0; i < columns; i++) {
@@ -30,19 +31,22 @@ function setup() {
   let button = createButton('Reset');
   button.position(0, 500);
   button.mousePressed(clearCanvas);
+
   let buttonPause = createButton('Pause');
   buttonPause.position(90, 500);
   buttonPause.mousePressed(switchPause);
+  print('press button');
 }
 
-function switchPause(){
-  isPaused = !isPaused; 
+function switchPause() {
+  isPaused = !isPaused;
+  print('pause');
 }
 /**
- *draw function in p5.js is called continuously after setup() 
+ *draw function in p5.js is called continuously after setup()
  */
 function draw() {
-  if(isPaused){
+  if (isPaused) {
     return;
   }
   background(255);
@@ -56,7 +60,6 @@ function draw() {
     }
   }
 }
-
 
 // Fill board randomly
 function init() {
@@ -77,8 +80,8 @@ function generate() {
   // Loop through every spot in our 2D array and check spots neighbors
   // for (let x = 1; x < columns - 1; x++) {
   //   for (let y = 1; y < rows - 1; y++) {
-      for (let x = 0; x < columns; x++) {
-        for (let y = 0; y < rows; y++) {
+  for (let x = 0; x < columns; x++) {
+    for (let y = 0; y < rows; y++) {
       // Add up all the states in a 3x3 surrounding grid
       let neighbors = 0;
       for (let i = -1; i <= 1; i++) {
@@ -90,12 +93,16 @@ function generate() {
           //neighbors += board[x + i][y + j];
         }
       }
-
+      //Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+      //Any live cell with two or three live neighbours lives on to the next generation.
+      //Any live cell with more than three live neighbours dies, as if by overpopulation.
+      //Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
       // A little trick to subtract the current cell's state since
       // we added it in the above loop
       neighbors -= board[x][y];
       // Rules of Life
-      if (board[x][y] == 1 && neighbors < 2) next[x][y] = 0; // Loneliness
+      if (board[x][y] == 1 && neighbors < 2) 
+      next[x][y] = 0; // Loneliness
       else if (board[x][y] == 1 && neighbors > 3)
         next[x][y] = 0; // Overpopulation
       else if (board[x][y] == 0 && neighbors == 3)

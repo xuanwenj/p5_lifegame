@@ -6,8 +6,17 @@ let isPaused = false;
  */
 function setup() {
   // Set simulation framerate to 10 to avoid flickering
+
   frameRate(10);
+   // Create a div element.
+  
   createCanvas(720, 400);
+ 
+  
+  let code = "function init() { \n for (let i = 0; i < columns; i++) {\n for (let j = 0; j < rows; j++) {\n if (i == 0 || j == 0 || i == columns - 1 || j == rows - 1)\n board[i][j] = 0;\n else board[i][j] = floor(random(2)); \n next[i][j] = 0;\n}\n} \n}";
+
+
+  
   w = 20;
   // Calculate columns and rows
   //floor() is used to round down the result of width / w to the nearest whole number
@@ -97,22 +106,20 @@ function generate() {
       //Any live cell with two or three live neighbours lives on to the next generation.
       //Any live cell with more than three live neighbours dies, as if by overpopulation.
       //Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
-      // A little trick to subtract the current cell's state since
+      //A little trick to subtract the current cell's state since
+
       // we added it in the above loop
       neighbors -= board[x][y];
       // Rules of Life
       if (board[x][y] == 1 && neighbors < 2) 
-      next[x][y] = 0;
-       // Loneliness
+      next[x][y] = 0; // Loneliness
       else if (board[x][y] == 1 && neighbors > 3)
         next[x][y] = 0; // Overpopulation
       else if (board[x][y] == 0 && neighbors == 3)
         next[x][y] = 1; // Reproduction
       else next[x][y] = board[x][y]; // Stasis
-      
     }
   }
-  
   let temp = board;
   board = next;
   next = temp;

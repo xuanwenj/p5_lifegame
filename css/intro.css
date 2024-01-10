@@ -1,0 +1,23 @@
+.navbar {
+    margin-bottom: 20px; 
+  }
+.container{
+    margin-left: 1px;
+  }
+.still-image {
+    width: 200px; 
+    height: 200px; 
+    padding: 20px;
+  }
+
+.osc-image {
+    width: 200px; 
+    height: 200px; 
+    padding: 20px;
+  }
+.space-image {
+    width: 200px; 
+    height: 200px;
+    padding: 20px;
+  }
+
