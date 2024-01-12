@@ -3,6 +3,7 @@
   }
 .container{
     margin-left: 1px;
+    
   }
 .still-image {
     width: 200px; 
@@ -20,4 +21,7 @@
     height: 200px;
     padding: 20px;
   }
+.col--md-7{
+  padding: 0px;
+}
 

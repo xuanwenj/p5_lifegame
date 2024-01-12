@@ -29,11 +29,11 @@ function setup() {
   init();
 
   let button = createButton('Reset');
-  button.position(0, 500);
+  button.position(0, 600);
   button.mousePressed(clearCanvas);
 
   let buttonPause = createButton('Pause');
-  buttonPause.position(90, 500);
+  buttonPause.position(90, 600);
   buttonPause.mousePressed(switchPause);
   print('press button');
 }

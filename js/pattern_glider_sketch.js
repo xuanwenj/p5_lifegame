@@ -5,6 +5,9 @@ function setup() {
   frameRate(10);
   createCanvas(720, 400);
   w = 20;
+  externalText = createDiv('Texts in this region are made in P5.js');
+  externalText.position(width + 100, 100); // Adjust position as needed
+  externalText.style('color', 'black'); // Adjust text color as needed
   // Calculate columns and rows
   //floor() is used to round down the result of width / w to the nearest whole number
   columns = floor(width / w); //36
@@ -23,12 +26,20 @@ function setup() {
   init();
 
   let buttonReset = createButton('Reset');
-  buttonReset.position(0, 500);
+  buttonReset.position(0, 600);
   buttonReset.mousePressed(clearCanvas);
   
   let buttonPause = createButton('Pause');
-  buttonPause.position(90, 500);
+  buttonPause.position(90, 600);
   buttonPause.mousePressed(switchPause);
+
+  let buttonSpeed20 = createButton('Speed20');
+  buttonSpeed20.position(180,600);
+  buttonSpeed20.mousePressed(changeSpeed);
+  
+}
+function changeSpeed(){
+  frameRate(20);
 }
 /**
  * swtich pause and resume condition
@@ -56,6 +67,7 @@ function draw() {
       rect(i * w, j * w - 2, w - 2);
     }
   }
+
 }
 
 function init() {
@@ -77,6 +89,7 @@ function init() {
     //  board[3][5] = 1;
 
 }
+
 function generate() {
   // Loop through every spot in our 2D array and check spots neighbors
   for (let x = 1; x < columns - 1; x++) {
@@ -119,4 +132,5 @@ function clearCanvas() {
   isPaused = false;
   clear();
   init();
+  frameRate(10);
 }
