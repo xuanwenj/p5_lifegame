@@ -3,7 +3,7 @@ let isPaused = false;
 let toggleCanvas = true;
 let currentInit = 0;
 const totalInit = 3;
-const buttonNames = ["Test still lifes ", "Test oscillarors.", "Test border neighbors "];
+const buttonNames = ["Test still lifes ", "Test oscillarors & spaceship", "Test border neighbors "];
 function setup() {
 
   // Set simulation framerate to 8 to avoid flickering
@@ -30,7 +30,7 @@ function setup() {
     next[i] = new Array(rows);
   }
 
-
+  // is it here to add the if condition of start or in draw method?
   init();
 
   let buttonReset = createButton('Reset');
@@ -46,6 +46,7 @@ function setup() {
   buttonSpeed20.mousePressed(changeSpeed);
   
 }
+
 function toggleInit() {
   currentInit = (currentInit + 1) % buttonNames.length;
   setup(); // Call setup to update the canvas
@@ -89,6 +90,8 @@ function draw() {
 
 function init() {
   if(currentInit === 0){
+    //set isPaused false, otherwise if the pattern is paused, the canvas won't show when change the init pattern
+    isPaused = false;
     // initialize the pattern with still lifes
     for (let i = 0; i < columns; i++) {
       for (let j = 0; j < rows; j++) {
@@ -134,6 +137,7 @@ function init() {
   
   }else if(currentInit === 1){
     //initialize the pattern with oscillarors
+    isPaused = false;
       for (let i = 0; i < columns; i++) {
         for (let j = 0; j < rows; j++) {
           // Clear the board
@@ -170,7 +174,7 @@ function init() {
       board[29][11] = 1; 
       board[30][10] = 1;
   }else if(currentInit === 2){
-    
+    isPaused = false;
     for (let i = 0; i < columns; i++) {
       for (let j = 0; j < rows; j++) {
         // Clear the board

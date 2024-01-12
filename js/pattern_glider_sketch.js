@@ -21,7 +21,7 @@ function setup() {
   // Going to use multiple 2D arrays and swap them
   next = new Array(columns);
   for (i = 0; i < columns; i++) {
-    next[i] = new Array(rows);
+    next[i]   = new Array(rows);
   }
   init();
 
@@ -84,9 +84,7 @@ function init() {
   board[5][2] = 1;
   board[5][3] = 1;
   board[5][4] = 1;
-    //  board[3][3] = 1;
-    //  board[3][4] = 1;
-    //  board[3][5] = 1;
+
 
 }
 

@@ -1,12 +1,12 @@
 let w, columns, rows, board, next;
 let isPaused = false;
+let isStart = false;
 
 /**
  * set up the canvas and data structures for drawing
  */
 function setup() {
-  // Set simulation framerate to 10 to avoid flickering
-  frameRate(10);
+  frameRate(8);
   createCanvas(720, 400);
   w = 20;
   // Calculate columns and rows
@@ -26,56 +26,70 @@ function setup() {
   for (i = 0; i < columns; i++) {
     next[i] = new Array(rows);
   }
-  init();
+  drawBoard();
 
   let button = createButton('Reset');
-  button.position(0, 500);
+  button.position(0, 630);
   button.mousePressed(clearCanvas);
 
   let buttonPause = createButton('Pause');
-  buttonPause.position(90, 500);
+  buttonPause.position(90, 630);
   buttonPause.mousePressed(switchPause);
-  print('press button');
-}
+ 
+  let buttonStart = createButton('Start');
+  buttonStart.position(180, 630);
+  buttonStart.mousePressed(startGenerate);
 
-function switchPause() {
-  isPaused = !isPaused;
-  print('pause');
 }
-/**
- *draw function in p5.js is called continuously after setup()
- */
 function draw() {
-  if (isPaused) {
+  if(isPaused){
     return;
   }
   background(255);
+  for (let i = 0; i < columns; i++) {
+    for (let j = 0; j < rows; j++) {
+      fill(board[i][j] ? 0 : 255);
+      stroke(0);
+      rect(i * w, j * w, w, w);
+    }
+  }
+  if(isStart === true)
   generate();
   for (let i = 0; i < columns; i++) {
     for (let j = 0; j < rows; j++) {
       if (board[i][j] == 1) fill(0);
       else fill(255);
-      stroke(0);
-      rect(i * w, j * w, w - 1, w - 1);
+      //color of the line
+      stroke(0);  
+      rect(i * w, j * w, w);
     }
   }
-}
 
-// Fill board randomly
-function init() {
+}
+function drawBoard() {
+  //isPaused = false;
   for (let i = 0; i < columns; i++) {
     for (let j = 0; j < rows; j++) {
-      // Lining the edges with 0s
-      if (i == 0 || j == 0 || i == columns - 1 || j == rows - 1)
-        board[i][j] = 0;
-      // Filling the rest randomly
-      // random(2) return  returns a random number from 0 up to (but not including) 2, which is 0 or 1.
-      else board[i][j] = floor(random(2));
-      //set next array to 0 for storing the next state
+      // Clear the board
+      board[i][j] = 0;
       next[i][j] = 0;
     }
   }
 }
+function mouseClicked() {
+  let col = floor(mouseX / w);
+  let row = floor(mouseY / w);
+  board[col][row] = 1 - board[col][row];
+}
+
+function switchPause() {
+  isPaused = !isPaused;
+}
+
+function startGenerate() {
+  isStart = !isStart; 
+}
+
 function generate() {
   // Loop through every spot in our 2D array and check spots neighbors
   // for (let x = 1; x < columns - 1; x++) {
@@ -93,11 +107,7 @@ function generate() {
           //neighbors += board[x + i][y + j];
         }
       }
-      //Any live cell with fewer than two live neighbours dies, as if by underpopulation.
-      //Any live cell with two or three live neighbours lives on to the next generation.
-      //Any live cell with more than three live neighbours dies, as if by overpopulation.
-      //Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
-      // A little trick to subtract the current cell's state since
+   
       // we added it in the above loop
       neighbors -= board[x][y];
       // Rules of Life
@@ -123,6 +133,8 @@ function generate() {
  */
 function clearCanvas() {
   isPaused = false;
-  clear();
-  init();
+  isStart = false;
+  drawBoard();
+  //setup();
 }
+
