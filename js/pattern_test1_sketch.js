@@ -1,15 +1,20 @@
 let w, columns, rows, board, next;
 let isPaused = false;
+let toggleCanvas = true;
+let currentInit = 0;
+const totalInit = 3;
+const buttonNames = ["Test still lifes ", "Test oscillarors.", "Test border neighbors "];
 function setup() {
-  // Set simulation framerate to 10 to avoid flickering
-  frameRate(10);
+
+  // Set simulation framerate to 8 to avoid flickering
+  frameRate(8);
   createCanvas(720, 400);
   w = 20;
-
-  externalText = createDiv('Still lifes patterns test, the glider pattern is to prove the canvas being continuously refreshed.');
+  externalText = createDiv('In still lifes patterns test, the glider pattern is to prove the canvas being continuously refreshed.');
   externalText.position(width + 100, 150); 
   externalText.style('color', 'red'); 
   // Calculate columns and rows
+
   //floor() is used to round down the result of width / w to the nearest whole number
   columns = floor(width / w); //36
   rows = floor(height / w); //20
@@ -24,6 +29,8 @@ function setup() {
   for (i = 0; i < columns; i++) {
     next[i] = new Array(rows);
   }
+
+
   init();
 
   let buttonReset = createButton('Reset');
@@ -39,6 +46,15 @@ function setup() {
   buttonSpeed20.mousePressed(changeSpeed);
   
 }
+function toggleInit() {
+  currentInit = (currentInit + 1) % buttonNames.length;
+  setup(); // Call setup to update the canvas
+
+  // Change the button text based on the current canvas
+  const button = document.getElementById("chooseCanvas");
+  button.textContent = `${buttonNames[currentInit]}`;
+}
+
 function changeSpeed(){
   frameRate(20);
 }
@@ -65,65 +81,125 @@ function draw() {
       //color of the line
       stroke(0);
       //w - 1 means draw the rect with 2 pixel less to show the edge of the rect
-      rect(i * w, j * w - 2, w - 2);
+      rect(i * w, j * w, w);
     }
   }
 
 }
 
 function init() {
-  for (let i = 0; i < columns; i++) {
-    for (let j = 0; j < rows; j++) {
-      // Clear the board
-      board[i][j] = 0;
-      next[i][j] = 0;
+  if(currentInit === 0){
+    // initialize the pattern with still lifes
+    for (let i = 0; i < columns; i++) {
+      for (let j = 0; j < rows; j++) {
+        // Clear the board
+        board[i][j] = 0;
+        next[i][j] = 0;
+      }
     }
+  
+    board[10][1] = 1;
+    board[11][1] = 1;
+    board[10][2] = 1;
+    board[11][2] = 1;
+  
+    board[15][1] = 1;
+    board[16][1] = 1;
+    board[14][2] = 1;
+    board[15][3] = 1;
+    board[16][3] = 1;
+    board[17][2] = 1;
+  
+    board[21][1] = 1;
+    board[22][1] = 1;
+    board[20][2] = 1;
+    board[23][2] = 1;
+    board[21][3] = 1;
+    board[23][3] = 1;
+    board[22][4] = 1;
+  
+    board[26][1] = 1;
+    board[27][1] = 1;
+    board[26][2] = 1;
+    board[28][2] = 1;
+    board[27][3] = 1;
+  
+    board[2][4] = 1;
+    board[3][5] = 1;
+    board[1][6] = 1;
+    board[2][6] = 1;
+    board[3][6] = 1;
+
+
+  
+  }else if(currentInit === 1){
+    //initialize the pattern with oscillarors
+      for (let i = 0; i < columns; i++) {
+        for (let j = 0; j < rows; j++) {
+          // Clear the board
+          board[i][j] = 0;
+          next[i][j] = 0;
+        }
+      }
+    
+      board[5][2] = 1;
+      board[6][2] = 1;
+      board[7][2] = 1;
+
+      board[16][2] = 1;
+      board[17][2] = 1;
+      board[18][2] = 1;
+      board[15][3] = 1;
+      board[16][3] = 1;
+      board[17][3] = 1;
+
+      board[23][2] = 1;
+      board[24][2] = 1;
+      board[23][3] = 1;
+      board[25][5] = 1;
+      board[26][5] = 1;
+      board[26][4] = 1;
+
+      board[27][8] = 1;
+      board[30][8] = 1;
+      board[26][9] = 1;
+      board[26][10] = 1;
+      board[26][11] = 1;
+      board[27][11] = 1;
+      board[28][11] = 1;
+      board[29][11] = 1; 
+      board[30][10] = 1;
+  }else if(currentInit === 2){
+    
+    for (let i = 0; i < columns; i++) {
+      for (let j = 0; j < rows; j++) {
+        // Clear the board
+        board[i][j] = 0;
+        next[i][j] = 0;
+      }
+    }
+      board[0][4] = 1;
+      board[0][5] = 1;
+      board[35][4] = 1;
+      board[35][5] = 1;
+
+      board[10][1] = 1;
+      board[11][1] = 1;
+      board[10][2] = 1;
+      board[11][2] = 1;
+
+      board[35][9] = 1;
+      board[35][10] = 1;
+      board[35][11] = 1;
+
+
   }
-
-  board[10][1] = 1;
-  board[11][1] = 1;
-  board[10][2] = 1;
-  board[11][2] = 1;
-
-  board[15][1] = 1;
-  board[16][1] = 1;
-  board[14][2] = 1;
-  board[15][3] = 1;
-  board[16][3] = 1;
-  board[17][2] = 1;
-
-  board[21][1] = 1;
-  board[22][1] = 1;
-  board[20][2] = 1;
-  board[23][2] = 1;
-  board[21][3] = 1;
-  board[23][3] = 1;
-  board[22][4] = 1;
-
-  board[26][1] = 1;
-  board[27][1] = 1;
-  board[26][2] = 1;
-  board[28][2] = 1;
-  board[27][3] = 1;
-
-
-
-
-
-
-  board[2][4] = 1;
-  board[3][5] = 1;
-  board[1][6] = 1;
-  board[2][6] = 1;
-  board[3][6] = 1;
-
-
 }
 
 function generate() {
   // Loop through every spot in our 2D array and check spots neighbors
-  for (let x = 1; x < columns - 1; x++) {
-    for (let y = 1; y < rows - 1; y++) {
+  for (let x = 0; x < columns; x++) {
+    for (let y = 0; y < rows; y++) {
       // Add up all the states in a 3x3 surrounding grid
       let neighbors = 0;
       for (let i = -1; i <= 1; i++) {

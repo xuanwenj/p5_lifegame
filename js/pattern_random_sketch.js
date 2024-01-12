@@ -59,6 +59,7 @@ function draw() {
       rect(i * w, j * w, w - 1, w - 1);
     }
   }
+
 }
 
 // Fill board randomly
@@ -70,7 +71,11 @@ function init() {
         board[i][j] = 0;
       // Filling the rest randomly
       // random(2) return  returns a random number from 0 up to (but not including) 2, which is 0 or 1.
-      else board[i][j] = floor(random(2));
+      else 
+      // board[34][14] = 1;
+      // board[35][14] = 1;
+      // board[0][14] = 1;
+      board[i][j] = floor(random(2));
       //set next array to 0 for storing the next state
       next[i][j] = 0;
     }
