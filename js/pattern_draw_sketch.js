@@ -14,7 +14,7 @@ function setup() {
   columns = floor(width / w); //36
   rows = floor(height / w); //20
 
-  // Wacky way to make a 2D array is JS
+  // Wacky way to make a 2D array is JS:
   // make an array represents colunms,
   // for loop the array while adding a new array represents row and assign it to the colunm[i]
   board = new Array(columns);
@@ -26,7 +26,7 @@ function setup() {
   for (i = 0; i < columns; i++) {
     next[i] = new Array(rows);
   }
-  drawBoard();
+  init();
 
   let button = createButton('Reset');
   button.position(0, 630);
@@ -35,14 +35,17 @@ function setup() {
   let buttonPause = createButton('Pause');
   buttonPause.position(90, 630);
   buttonPause.mousePressed(switchPause);
- 
+
   let buttonStart = createButton('Start');
   buttonStart.position(180, 630);
   buttonStart.mousePressed(startGenerate);
-
 }
+/**
+ * The draw() function is automatically called by p5.js in a loop, continuously after setup().
+ * @returns If pause button click, stop the draw() method.
+ */
 function draw() {
-  if(isPaused){
+  if (isPaused) {
     return;
   }
   background(255);
@@ -53,20 +56,21 @@ function draw() {
       rect(i * w, j * w, w, w);
     }
   }
-  if(isStart === true)
-  generate();
+  if (isStart === true) generate();
   for (let i = 0; i < columns; i++) {
     for (let j = 0; j < rows; j++) {
       if (board[i][j] == 1) fill(0);
       else fill(255);
-      //color of the line
-      stroke(0);  
+      stroke(0);
       rect(i * w, j * w, w);
     }
   }
-
 }
-function drawBoard() {
+/*
+ * Initialize a blank canvas.
+ */
+
+function init() {
   //isPaused = false;
   for (let i = 0; i < columns; i++) {
     for (let j = 0; j < rows; j++) {
@@ -76,6 +80,10 @@ function drawBoard() {
     }
   }
 }
+
+/**
+ * Click mouse to choose cells and mark them as live lifes.
+ */
 function mouseClicked() {
   let col = floor(mouseX / w);
   let row = floor(mouseY / w);
@@ -87,13 +95,11 @@ function switchPause() {
 }
 
 function startGenerate() {
-  isStart = !isStart; 
+  isStart = !isStart;
 }
 
 function generate() {
   // Loop through every spot in our 2D array and check spots neighbors
-  // for (let x = 1; x < columns - 1; x++) {
-  //   for (let y = 1; y < rows - 1; y++) {
   for (let x = 0; x < columns; x++) {
     for (let y = 0; y < rows; y++) {
       // Add up all the states in a 3x3 surrounding grid
@@ -104,25 +110,22 @@ function generate() {
           let col = (x + i + columns) % columns;
           let row = (y + j + rows) % rows;
           neighbors += board[col][row];
-          //neighbors += board[x + i][y + j];
         }
       }
-   
+
       // we added it in the above loop
       neighbors -= board[x][y];
       // Rules of Life
-      if (board[x][y] == 1 && neighbors < 2) 
-      next[x][y] = 0;
-       // Loneliness
+      if (board[x][y] == 1 && neighbors < 2) next[x][y] = 0;
+      // Loneliness
       else if (board[x][y] == 1 && neighbors > 3)
         next[x][y] = 0; // Overpopulation
       else if (board[x][y] == 0 && neighbors == 3)
         next[x][y] = 1; // Reproduction
       else next[x][y] = board[x][y]; // Stasis
-      
     }
   }
-  
+
   let temp = board;
   board = next;
   next = temp;
@@ -134,7 +137,6 @@ function generate() {
 function clearCanvas() {
   isPaused = false;
   isStart = false;
-  drawBoard();
-  //setup();
+  init();
+  frameRate(8);
 }
-

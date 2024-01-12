@@ -1,13 +1,13 @@
 let w, columns, rows, board, next;
 let isPaused = false;
 function setup() {
-  // Set simulation framerate to 10 to avoid flickering
-  frameRate(10);
+  // Set simulation framerate to 8 to avoid flickering
+  frameRate(8);
   createCanvas(720, 400);
   w = 20;
   externalText = createDiv('Texts in this region are made in P5.js');
-  externalText.position(width + 100, 100); // Adjust position as needed
-  externalText.style('color', 'black'); // Adjust text color as needed
+  externalText.position(width + 100, 100);
+  externalText.style('color', 'black');
   // Calculate columns and rows
   //floor() is used to round down the result of width / w to the nearest whole number
   columns = floor(width / w); //36
@@ -21,35 +21,37 @@ function setup() {
   // Going to use multiple 2D arrays and swap them
   next = new Array(columns);
   for (i = 0; i < columns; i++) {
-    next[i]   = new Array(rows);
+    next[i] = new Array(rows);
   }
   init();
 
   let buttonReset = createButton('Reset');
   buttonReset.position(0, 600);
   buttonReset.mousePressed(clearCanvas);
-  
+
   let buttonPause = createButton('Pause');
   buttonPause.position(90, 600);
   buttonPause.mousePressed(switchPause);
 
   let buttonSpeed20 = createButton('Speed20');
-  buttonSpeed20.position(180,600);
+  buttonSpeed20.position(180, 600);
   buttonSpeed20.mousePressed(changeSpeed);
-  
 }
-function changeSpeed(){
+/**
+ * Set simulation framerate to 20.
+ */
+function changeSpeed() {
   frameRate(20);
 }
 /**
- * swtich pause and resume condition
+ * Swtich pause and resume condition.
  */
 function switchPause() {
   isPaused = !isPaused;
 }
 /**
- * draw the canvas with rect()
- * @returns
+ * Draw the canvas with rect(), the draw() function is automatically called by p5.js in a loop, continuously after setup().
+ * @returns If pause button click, stop the draw() method.
  */
 function draw() {
   if (isPaused) {
@@ -67,9 +69,10 @@ function draw() {
       rect(i * w, j * w - 2, w - 2);
     }
   }
-
 }
-
+/*
+ * Initialize the canvas with a glider pattern.
+ */
 function init() {
   for (let i = 0; i < columns; i++) {
     for (let j = 0; j < rows; j++) {
@@ -78,14 +81,11 @@ function init() {
       next[i][j] = 0;
     }
   }
-
   board[3][3] = 1;
   board[4][4] = 1;
   board[5][2] = 1;
   board[5][3] = 1;
   board[5][4] = 1;
-
-
 }
 
 function generate() {
@@ -98,10 +98,9 @@ function generate() {
         for (let j = -1; j <= 1; j++) {
           //[x+i] [y+j] is to calculate the relative neibours around the current spot
           // use modulo to include the border in the count of neighbors
-           let col = (x + i + columns) % columns;
-           let row = (y + j + rows) % rows;
-           neighbors += board[col][row];
-          //neighbors += board[x + i][y + j];
+          let col = (x + i + columns) % columns;
+          let row = (y + j + rows) % rows;
+          neighbors += board[col][row];
         }
       }
 
@@ -128,7 +127,6 @@ function generate() {
  */
 function clearCanvas() {
   isPaused = false;
-  clear();
   init();
-  frameRate(10);
+  frameRate(8);
 }

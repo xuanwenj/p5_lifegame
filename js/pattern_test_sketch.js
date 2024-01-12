@@ -1,18 +1,22 @@
 let w, columns, rows, board, next;
 let isPaused = false;
-let toggleCanvas = true;
 let currentInit = 0;
 const totalInit = 3;
-const buttonNames = ["Test still lifes ", "Test oscillarors & spaceship", "Test border neighbors "];
+const buttonNames = [
+  'Test still lifes ',
+  'Test oscillarors & spaceship',
+  'Test border neighbors ',
+];
 function setup() {
-
   // Set simulation framerate to 8 to avoid flickering
   frameRate(8);
   createCanvas(720, 400);
   w = 20;
-  externalText = createDiv('In still lifes patterns test, the glider pattern is to prove the canvas being continuously refreshed.');
-  externalText.position(width + 100, 150); 
-  externalText.style('color', 'red'); 
+  externalText = createDiv(
+    'In still lifes patterns test, the glider pattern is to prove the canvas being continuously refreshed.'
+  );
+  externalText.position(width + 100, 150);
+  externalText.style('color', 'red');
   // Calculate columns and rows
 
   //floor() is used to round down the result of width / w to the nearest whole number
@@ -30,33 +34,34 @@ function setup() {
     next[i] = new Array(rows);
   }
 
-  // is it here to add the if condition of start or in draw method?
   init();
 
   let buttonReset = createButton('Reset');
   buttonReset.position(0, 600);
   buttonReset.mousePressed(clearCanvas);
-  
+
   let buttonPause = createButton('Pause');
   buttonPause.position(90, 600);
   buttonPause.mousePressed(switchPause);
 
   let buttonSpeed20 = createButton('Speed20');
-  buttonSpeed20.position(180,600);
+  buttonSpeed20.position(180, 600);
   buttonSpeed20.mousePressed(changeSpeed);
-  
 }
 
+/**
+ * Change initialized pattern with one button by using modulo.
+ */
 function toggleInit() {
   currentInit = (currentInit + 1) % buttonNames.length;
   setup(); // Call setup to update the canvas
 
-  // Change the button text based on the current canvas
-  const button = document.getElementById("chooseCanvas");
+  // Change the button text, the text index is in line with the sequence of the initialized pattern
+  const button = document.getElementById('chooseCanvas');
   button.textContent = `${buttonNames[currentInit]}`;
 }
 
-function changeSpeed(){
+function changeSpeed() {
   frameRate(20);
 }
 /**
@@ -66,8 +71,8 @@ function switchPause() {
   isPaused = !isPaused;
 }
 /**
- * draw the canvas with rect()
- * @returns
+ * Draw the canvas with rect(), the draw() function is automatically called by p5.js in a loop, continuously after setup().
+ * @returns If pause button click, stop the draw() method.
  */
 function draw() {
   if (isPaused) {
@@ -85,12 +90,13 @@ function draw() {
       rect(i * w, j * w, w);
     }
   }
-
 }
 
 function init() {
-  if(currentInit === 0){
-    //set isPaused false, otherwise if the pattern is paused, the canvas won't show when change the init pattern
+  if (currentInit === 0) {
+    //set isPaused false, otherwise if the pattern is paused,
+    //the canvas won't show when changing the init pattern.
+    //because the draw() is stopped
     isPaused = false;
     // initialize the pattern with still lifes
     for (let i = 0; i < columns; i++) {
@@ -100,19 +106,19 @@ function init() {
         next[i][j] = 0;
       }
     }
-  
+
     board[10][1] = 1;
     board[11][1] = 1;
     board[10][2] = 1;
     board[11][2] = 1;
-  
+
     board[15][1] = 1;
     board[16][1] = 1;
     board[14][2] = 1;
     board[15][3] = 1;
     board[16][3] = 1;
     board[17][2] = 1;
-  
+
     board[21][1] = 1;
     board[22][1] = 1;
     board[20][2] = 1;
@@ -120,60 +126,20 @@ function init() {
     board[21][3] = 1;
     board[23][3] = 1;
     board[22][4] = 1;
-  
+
     board[26][1] = 1;
     board[27][1] = 1;
     board[26][2] = 1;
     board[28][2] = 1;
     board[27][3] = 1;
-  
+
     board[2][4] = 1;
     board[3][5] = 1;
     board[1][6] = 1;
     board[2][6] = 1;
     board[3][6] = 1;
-
-
-  
-  }else if(currentInit === 1){
+  } else if (currentInit === 1) {
     //initialize the pattern with oscillarors
-    isPaused = false;
-      for (let i = 0; i < columns; i++) {
-        for (let j = 0; j < rows; j++) {
-          // Clear the board
-          board[i][j] = 0;
-          next[i][j] = 0;
-        }
-      }
-    
-      board[5][2] = 1;
-      board[6][2] = 1;
-      board[7][2] = 1;
-
-      board[16][2] = 1;
-      board[17][2] = 1;
-      board[18][2] = 1;
-      board[15][3] = 1;
-      board[16][3] = 1;
-      board[17][3] = 1;
-
-      board[23][2] = 1;
-      board[24][2] = 1;
-      board[23][3] = 1;
-      board[25][5] = 1;
-      board[26][5] = 1;
-      board[26][4] = 1;
-
-      board[27][8] = 1;
-      board[30][8] = 1;
-      board[26][9] = 1;
-      board[26][10] = 1;
-      board[26][11] = 1;
-      board[27][11] = 1;
-      board[28][11] = 1;
-      board[29][11] = 1; 
-      board[30][10] = 1;
-  }else if(currentInit === 2){
     isPaused = false;
     for (let i = 0; i < columns; i++) {
       for (let j = 0; j < rows; j++) {
@@ -182,21 +148,56 @@ function init() {
         next[i][j] = 0;
       }
     }
-      board[0][4] = 1;
-      board[0][5] = 1;
-      board[35][4] = 1;
-      board[35][5] = 1;
 
-      board[10][1] = 1;
-      board[11][1] = 1;
-      board[10][2] = 1;
-      board[11][2] = 1;
+    board[5][2] = 1;
+    board[6][2] = 1;
+    board[7][2] = 1;
 
-      board[35][9] = 1;
-      board[35][10] = 1;
-      board[35][11] = 1;
+    board[16][2] = 1;
+    board[17][2] = 1;
+    board[18][2] = 1;
+    board[15][3] = 1;
+    board[16][3] = 1;
+    board[17][3] = 1;
 
+    board[23][2] = 1;
+    board[24][2] = 1;
+    board[23][3] = 1;
+    board[25][5] = 1;
+    board[26][5] = 1;
+    board[26][4] = 1;
 
+    board[27][8] = 1;
+    board[30][8] = 1;
+    board[26][9] = 1;
+    board[26][10] = 1;
+    board[26][11] = 1;
+    board[27][11] = 1;
+    board[28][11] = 1;
+    board[29][11] = 1;
+    board[30][10] = 1;
+  } else if (currentInit === 2) {
+    isPaused = false;
+    for (let i = 0; i < columns; i++) {
+      for (let j = 0; j < rows; j++) {
+        // Clear the board
+        board[i][j] = 0;
+        next[i][j] = 0;
+      }
+    }
+    board[0][4] = 1;
+    board[0][5] = 1;
+    board[35][4] = 1;
+    board[35][5] = 1;
+
+    board[10][1] = 1;
+    board[11][1] = 1;
+    board[10][2] = 1;
+    board[11][2] = 1;
+
+    board[35][9] = 1;
+    board[35][10] = 1;
+    board[35][11] = 1;
   }
 }
 
@@ -210,9 +211,9 @@ function generate() {
         for (let j = -1; j <= 1; j++) {
           //[x+i] [y+j] is to calculate the relative neibours around the current spot
           // use modulo to include the border in the count of neighbors
-           let col = (x + i + columns) % columns;
-           let row = (y + j + rows) % rows;
-           neighbors += board[col][row];
+          let col = (x + i + columns) % columns;
+          let row = (y + j + rows) % rows;
+          neighbors += board[col][row];
           //neighbors += board[x + i][y + j];
         }
       }
@@ -240,7 +241,6 @@ function generate() {
  */
 function clearCanvas() {
   isPaused = false;
-  clear();
   init();
-  frameRate(10);
+  frameRate(8);
 }
