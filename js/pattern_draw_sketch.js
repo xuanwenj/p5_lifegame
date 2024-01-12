@@ -1,6 +1,7 @@
-let w, columns, rows, board, next;
-let isPaused = false;
+let w, columns, rows, board, next, buttonReset, buttonStart;
+//let isPaused = false;
 let isStart = false;
+let ;
 
 /**
  * set up the canvas and data structures for drawing
@@ -28,15 +29,11 @@ function setup() {
   }
   init();
 
-  let button = createButton('Reset');
-  button.position(0, 630);
-  button.mousePressed(clearCanvas);
+  buttonReset = createButton('Reset');
+  buttonReset.position(0, 630);
+  buttonReset.mousePressed(clearCanvas);
 
-  let buttonPause = createButton('Pause');
-  buttonPause.position(90, 630);
-  buttonPause.mousePressed(switchPause);
-
-  let buttonStart = createButton('Start');
+  buttonStart = createButton('Start');
   buttonStart.position(180, 630);
   buttonStart.mousePressed(startGenerate);
 }
@@ -45,17 +42,8 @@ function setup() {
  * @returns If pause button click, stop the draw() method.
  */
 function draw() {
-  if (isPaused) {
-    return;
-  }
   background(255);
-  for (let i = 0; i < columns; i++) {
-    for (let j = 0; j < rows; j++) {
-      fill(board[i][j] ? 0 : 255);
-      stroke(0);
-      rect(i * w, j * w, w, w);
-    }
-  }
+
   if (isStart === true) generate();
   for (let i = 0; i < columns; i++) {
     for (let j = 0; j < rows; j++) {
@@ -90,12 +78,14 @@ function mouseClicked() {
   board[col][row] = 1 - board[col][row];
 }
 
-function switchPause() {
-  isPaused = !isPaused;
-}
 
 function startGenerate() {
   isStart = !isStart;
+  if(isStart){
+    buttonStart.html('Pause');
+  } else {
+    buttonStart.html('Start');
+  }
 }
 
 function generate() {
@@ -135,7 +125,7 @@ function generate() {
  * reset the canvas
  */
 function clearCanvas() {
-  isPaused = false;
+  //isPaused = false;
   isStart = false;
   init();
   frameRate(8);
