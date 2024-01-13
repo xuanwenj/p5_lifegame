@@ -6,7 +6,10 @@ let w,
   generationNum,
   generationNumText,
   initCoorText,
-  coordinatesText;
+  coordinatesText,
+  buttonReset,
+  buttonPause,
+  buttonSpeed20;
 let isPaused = false;
 let currentInit = 0;
 const totalInit = 3;
@@ -52,15 +55,15 @@ function setup() {
 
   init();
 
-  let buttonReset = createButton('Reset');
+  buttonReset = createButton('Reset');
   buttonReset.position(0, 600);
   buttonReset.mousePressed(clearCanvas);
 
-  let buttonPause = createButton('Pause');
+  buttonPause = createButton('Pause');
   buttonPause.position(90, 600);
   buttonPause.mousePressed(switchPause);
 
-  let buttonSpeed20 = createButton('Speed20');
+  buttonSpeed20 = createButton('Speed20');
   buttonSpeed20.position(180, 600);
   buttonSpeed20.mousePressed(changeSpeed);
 }
@@ -73,6 +76,7 @@ function toggleInit() {
   initCoorText.html('');
   generationNumText.html('');
   coordinatesText.html('');
+  buttonPause.remove();
   setup(); // Call setup to update the canvas
   
 
@@ -89,6 +93,11 @@ function changeSpeed() {
  */
 function switchPause() {
   isPaused = !isPaused;
+  if(isPaused){
+    buttonPause.html('Start');
+  } else {
+    buttonPause.html('Pause');
+  }
 }
 /**
  * Draw the canvas with rect(), the draw() function is automatically called by p5.js in a loop, continuously after setup().
@@ -324,7 +333,7 @@ function getCoordinates() {
  */
 function clearCanvas() {
   isPaused = false;
-  clear();
+  buttonPause.html('Pause');
   init();
   frameRate(8);
   generationNum = 0;

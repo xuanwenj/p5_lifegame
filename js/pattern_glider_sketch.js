@@ -1,4 +1,4 @@
-let w, columns, rows, board, next, generationNum,  generationNumText, initCoorText, testGeneration, testCoorGeneration;
+let w, columns, rows, board, next, generationNum, buttonReset, buttonPause, buttonSpeed20, generationNumText, initCoorText, testGeneration, testCoorGeneration;
 let isPaused = false;
 let initCoor = [];
 
@@ -39,15 +39,15 @@ function setup() {
   }
   init();
   printInitCoor();
-  let buttonReset = createButton('Reset');
+  buttonReset = createButton('Reset');
   buttonReset.position(0, 600);
   buttonReset.mousePressed(clearCanvas);
 
-  let buttonPause = createButton('Pause');
+  buttonPause = createButton('Pause');
   buttonPause.position(90, 600);
   buttonPause.mousePressed(switchPause);
 
-  let buttonSpeed20 = createButton('Speed20');
+  buttonSpeed20 = createButton('Speed20');
   buttonSpeed20.position(180, 600);
   buttonSpeed20.mousePressed(changeSpeed);
 }
@@ -62,6 +62,11 @@ function changeSpeed() {
  */
 function switchPause() {
   isPaused = !isPaused;
+  if(isPaused){
+    buttonPause.html('Start');
+  } else {
+    buttonPause.html('Pause');
+  }
 }
 /**
  * Draw the canvas with rect(), the draw() function is automatically called by p5.js in a loop, continuously after setup().
@@ -197,6 +202,7 @@ function getCoordinates() {
  */
 function clearCanvas() {
   isPaused = false; 
+  buttonPause.html('Pause');
   init();
   frameRate(2);
   generationNum = 0;
