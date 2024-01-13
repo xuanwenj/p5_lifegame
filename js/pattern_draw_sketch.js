@@ -1,7 +1,6 @@
 let w, columns, rows, board, next, buttonReset, buttonStart;
-//let isPaused = false;
-let isStart = false;
-let ;
+
+let isStart = false ;
 
 /**
  * set up the canvas and data structures for drawing
@@ -125,8 +124,10 @@ function generate() {
  * reset the canvas
  */
 function clearCanvas() {
-  //isPaused = false;
+  
   isStart = false;
+  buttonStart.html('Start');
   init();
   frameRate(8);
+  
 }
