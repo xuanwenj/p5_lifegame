@@ -1,10 +1,10 @@
-let w, columns, rows, board, next, generationNum,  generationNumText, initCoorText;
+let w, columns, rows, board, next, generationNum,  generationNumText, initCoorText, testGeneration, testCoorGeneration;
 let isPaused = false;
 let initCoor = [];
 
 function setup() {
   // Set simulation framerate to 8 to avoid flickering
-  frameRate(0.5);
+  frameRate(2);
   createCanvas(720, 400);
   w = 20;
   externalText = createDiv('Texts in this region are made in P5.js');
@@ -18,7 +18,10 @@ function setup() {
   generationNumText.position(width + 100, 370);
   
   coordinatesText = createP('Coordinates:');
-  coordinatesText.position(width + 100, 400);
+  coordinatesText.position(width + 100, 460);
+
+  testGeneration = createP('The coordinates of 20th generation should be: [8, 8],[9, 9],[10, 7],[10, 8],[10, 9]');
+  testGeneration.position(width + 100, 400);
   // Calculate columns and rows
   //floor() is used to round down the result of width / w to the nearest whole number
   columns = floor(width / w); //36
@@ -35,7 +38,7 @@ function setup() {
     next[i] = new Array(rows);
   }
   init();
-
+  printInitCoor();
   let buttonReset = createButton('Reset');
   buttonReset.position(0, 600);
   buttonReset.mousePressed(clearCanvas);
@@ -70,7 +73,7 @@ function draw() {
   }
   background(255);
   generate();
-  printInitCoor();
+  
   printGeneration();
   printCoordinates();
 
@@ -96,11 +99,6 @@ function init() {
     }
   }
 
-  // board[3][3] = 1;
-  // board[4][4] = 1;
-  // board[5][2] = 1;
-  // board[5][3] = 1;
-  // board[5][4] = 1;
   // put the init coordinates in an array
   const coordinates = [
     [3, 3],
@@ -198,7 +196,7 @@ function getCoordinates() {
  * reset the canvas
  */
 function clearCanvas() {
-  isPaused = false;
+  isPaused = false; 
   init();
   frameRate(2);
   generationNum = 0;

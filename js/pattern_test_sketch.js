@@ -1,7 +1,16 @@
-let w, columns, rows, board, next;
+let w,
+  columns,
+  rows,
+  board,
+  next,
+  generationNum,
+  generationNumText,
+  initCoorText,
+  coordinatesText;
 let isPaused = false;
 let currentInit = 0;
 const totalInit = 3;
+let initCoor = [];
 const buttonNames = [
   'Test still lifes ',
   'Test oscillarors & spaceship',
@@ -12,12 +21,19 @@ function setup() {
   frameRate(8);
   createCanvas(720, 400);
   w = 20;
-  externalText = createDiv(
-    'In still lifes patterns test, the glider pattern is to prove the canvas being continuously refreshed.'
-  );
-  externalText.position(width + 100, 150);
+  externalText = createDiv('Texts in this region are made in P5.js');
+  externalText.position(width + 100, 100);
   externalText.style('color', 'red');
   // Calculate columns and rows
+
+  initCoorText = createP('Initial pattern coordinates: ');
+  initCoorText.position(width + 100, 200);
+
+  generationNumText = createP('Generation:');
+  generationNumText.position(width + 100, 370);
+
+  coordinatesText = createP('Coordinates:');
+  coordinatesText.position(width + 100, 400);
 
   //floor() is used to round down the result of width / w to the nearest whole number
   columns = floor(width / w); //36
@@ -54,7 +70,11 @@ function setup() {
  */
 function toggleInit() {
   currentInit = (currentInit + 1) % buttonNames.length;
+  initCoorText.html('');
+  generationNumText.html('');
+  coordinatesText.html('');
   setup(); // Call setup to update the canvas
+  
 
   // Change the button text, the text index is in line with the sequence of the initialized pattern
   const button = document.getElementById('chooseCanvas');
@@ -80,6 +100,15 @@ function draw() {
   }
   background(255);
   generate();
+
+  initCoorText.html('');
+  generationNumText.html('');
+  coordinatesText.html('');
+
+  printInitCoor();
+  printGeneration();
+  printCoordinates();
+
   for (let i = 0; i < columns; i++) {
     for (let j = 0; j < rows; j++) {
       if (board[i][j] == 1) fill(0);
@@ -93,12 +122,15 @@ function draw() {
 }
 
 function init() {
+  initCoor = []; // Clear the array
+  initCoorText.html(''); // Clear the content of the element
   if (currentInit === 0) {
     //set isPaused false, otherwise if the pattern is paused,
     //the canvas won't show when changing the init pattern.
     //because the draw() is stopped
     isPaused = false;
-    // initialize the pattern with still lifes
+   
+
     for (let i = 0; i < columns; i++) {
       for (let j = 0; j < rows; j++) {
         // Clear the board
@@ -106,40 +138,89 @@ function init() {
         next[i][j] = 0;
       }
     }
+ // initialize the pattern with still lifes
+    const coordinates = [
+      [10, 1],
+      [11, 1],
+      [10, 2],
+      [11, 2],
+      [15, 1],
+      [16, 1],
+      [14, 2],
+      [15, 3],
+      [16, 3],
+      [17, 2],
+      [21, 1],
+      [22, 1],
+      [20, 2],
+      [23, 2],
+      [21, 3],
+      [23, 3],
+      [22, 4],
+      [26, 1],
+      [27, 1],
+      [26, 2],
+      [28, 2],
+      [27, 3],
+    ];
+    for (let i = 0; i < coordinates.length; i++) {
+      const [x, y] = coordinates[i];
+      board[x][y] = 1;
+      initCoor.push(`[${x}, ${y}]`);
+    }
+    generationNum = 0;
 
-    board[10][1] = 1;
-    board[11][1] = 1;
-    board[10][2] = 1;
-    board[11][2] = 1;
+  }
+  else if (currentInit === 1) {
+  
+    isPaused = false;
+    clear();
+    for (let i = 0; i < columns; i++) {
+      for (let j = 0; j < rows; j++) {
+        // Clear the board
+        board[i][j] = 0;
+        next[i][j] = 0;
+      }
+    }
+  //initialize the pattern with oscillarors
+    const coordinates = [
+      [5, 2],
+      [6, 2],
+      [7, 2],
+      [16, 2],
+      [17, 2],
+      [18, 2],
+      [15, 3],
+      [16, 3],
+      [17, 3],
+      [23, 2],
+      [24, 2],
+      [23, 3],
+      [25, 5],
+      [26, 5],
+      [26, 4],
 
-    board[15][1] = 1;
-    board[16][1] = 1;
-    board[14][2] = 1;
-    board[15][3] = 1;
-    board[16][3] = 1;
-    board[17][2] = 1;
+      [27, 8],
+      [30, 8],
+      [26, 9],
+      [26, 10],
+      [26, 11],
+      [27, 11],
+      [28, 11],
+      [29, 11],
+      [30, 10],
 
-    board[21][1] = 1;
-    board[22][1] = 1;
-    board[20][2] = 1;
-    board[23][2] = 1;
-    board[21][3] = 1;
-    board[23][3] = 1;
-    board[22][4] = 1;
+    ]
 
-    board[26][1] = 1;
-    board[27][1] = 1;
-    board[26][2] = 1;
-    board[28][2] = 1;
-    board[27][3] = 1;
+    for (let i = 0; i < coordinates.length; i++) {
+      const [x, y] = coordinates[i];
+      board[x][y] = 1;
+      initCoor.push(`[${x}, ${y}]`);
+    }
+    generationNum = 0;
 
-    board[2][4] = 1;
-    board[3][5] = 1;
-    board[1][6] = 1;
-    board[2][6] = 1;
-    board[3][6] = 1;
-  } else if (currentInit === 1) {
-    //initialize the pattern with oscillarors
+   }
+  else if (currentInit === 2) {
     isPaused = false;
     for (let i = 0; i < columns; i++) {
       for (let j = 0; j < rows; j++) {
@@ -148,56 +229,27 @@ function init() {
         next[i][j] = 0;
       }
     }
+    //initialize the pattern with bondary pattern
+    const coordinates = [
+      [0, 4],
+      [0, 5],
+      [35, 4],
+      [35, 5],
+      [10, 1],
+      [11, 1],
+      [10, 2],
+      [11, 2],
+      [35, 9],
+      [35, 10],
+      [35, 11],
+    ];
 
-    board[5][2] = 1;
-    board[6][2] = 1;
-    board[7][2] = 1;
-
-    board[16][2] = 1;
-    board[17][2] = 1;
-    board[18][2] = 1;
-    board[15][3] = 1;
-    board[16][3] = 1;
-    board[17][3] = 1;
-
-    board[23][2] = 1;
-    board[24][2] = 1;
-    board[23][3] = 1;
-    board[25][5] = 1;
-    board[26][5] = 1;
-    board[26][4] = 1;
-
-    board[27][8] = 1;
-    board[30][8] = 1;
-    board[26][9] = 1;
-    board[26][10] = 1;
-    board[26][11] = 1;
-    board[27][11] = 1;
-    board[28][11] = 1;
-    board[29][11] = 1;
-    board[30][10] = 1;
-  } else if (currentInit === 2) {
-    isPaused = false;
-    for (let i = 0; i < columns; i++) {
-      for (let j = 0; j < rows; j++) {
-        // Clear the board
-        board[i][j] = 0;
-        next[i][j] = 0;
-      }
+    for (let i = 0; i < coordinates.length; i++) {
+      const [x, y] = coordinates[i];
+      board[x][y] = 1;
+      initCoor.push(`[${x}, ${y}]`);
     }
-    board[0][4] = 1;
-    board[0][5] = 1;
-    board[35][4] = 1;
-    board[35][5] = 1;
-
-    board[10][1] = 1;
-    board[11][1] = 1;
-    board[10][2] = 1;
-    board[11][2] = 1;
-
-    board[35][9] = 1;
-    board[35][10] = 1;
-    board[35][11] = 1;
+    generationNum = 0;
   }
 }
 
@@ -234,13 +286,46 @@ function generate() {
   let temp = board;
   board = next;
   next = temp;
+
+  generationNum++;
+}
+function printInitCoor() {
+  initCoorText.html(
+    'Initial pattern coordinate(0 generation): <br >' + initCoor
+  );
 }
 
+function printGeneration() {
+  generationNumText.html('Generation: ' + generationNum);
+}
+function printCoordinates() {
+  //let gliderCoordinates = findGliderCoordinates();
+  // Update the paragraph element's content with the coordinates
+  coordinatesText.html('Coordinates: ' + getCoordinates());
+}
+
+function getCoordinates() {
+  let livingCells = [];
+  for (let i = 0; i < columns; i++) {
+    for (let j = 0; j < rows; j++) {
+      if (board[i][j] == 1) {
+        livingCells.push(`[${i}, ${j}]`);
+      }
+    }
+  }
+  if (livingCells.length > 0) {
+    return 'Living Cells Coordinates:', livingCells;
+  } else {
+    return 'No living cells found';
+  }
+}
 /**
  * reset the canvas
  */
 function clearCanvas() {
   isPaused = false;
+  clear();
   init();
   frameRate(8);
+  generationNum = 0;
 }
