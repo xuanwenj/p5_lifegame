@@ -1,13 +1,24 @@
-let w, columns, rows, board, next;
+let w, columns, rows, board, next, generationNum,  generationNumText, initCoorText;
 let isPaused = false;
+let initCoor = [];
+
 function setup() {
   // Set simulation framerate to 8 to avoid flickering
-  frameRate(8);
+  frameRate(0.5);
   createCanvas(720, 400);
   w = 20;
   externalText = createDiv('Texts in this region are made in P5.js');
   externalText.position(width + 100, 100);
   externalText.style('color', 'black');
+
+  initCoorText = createP("Initial pattern coordinates: ");
+  initCoorText.position(width + 100, 200);
+    
+  generationNumText = createP('Generation:');
+  generationNumText.position(width + 100, 370);
+  
+  coordinatesText = createP('Coordinates:');
+  coordinatesText.position(width + 100, 400);
   // Calculate columns and rows
   //floor() is used to round down the result of width / w to the nearest whole number
   columns = floor(width / w); //36
@@ -59,13 +70,16 @@ function draw() {
   }
   background(255);
   generate();
+  printInitCoor();
+  printGeneration();
+  printCoordinates();
+
   for (let i = 0; i < columns; i++) {
     for (let j = 0; j < rows; j++) {
       if (board[i][j] == 1) fill(0);
       else fill(255);
-      //color of the line
       stroke(0);
-      //w - 1 means draw the rect with 2 pixel less to show the edge of the rect
+      //w - 2 means draw the rect with 2 pixel less to show the edge of the rect
       rect(i * w, j * w - 2, w - 2);
     }
   }
@@ -81,11 +95,28 @@ function init() {
       next[i][j] = 0;
     }
   }
-  board[3][3] = 1;
-  board[4][4] = 1;
-  board[5][2] = 1;
-  board[5][3] = 1;
-  board[5][4] = 1;
+
+  // board[3][3] = 1;
+  // board[4][4] = 1;
+  // board[5][2] = 1;
+  // board[5][3] = 1;
+  // board[5][4] = 1;
+  // put the init coordinates in an array
+  const coordinates = [
+    [3, 3],
+    [4, 4],
+    [5, 2],
+    [5, 3],
+    [5, 4]
+  ];
+
+  for (let i = 0; i < coordinates.length; i++) {
+    const [x, y] = coordinates[i];
+    board[x][y] = 1;
+    initCoor.push(`[${x}, ${y}]`);
+      
+  }
+  generationNum = 0;
 }
 
 function generate() {
@@ -108,9 +139,17 @@ function generate() {
       // we added it in the above loop, delete the cell it self
       neighbors -= board[x][y];
       // Rules of Life
-      if (board[x][y] == 1 && neighbors < 2) next[x][y] = 0; // Loneliness die
-      else if (board[x][y] == 1 && neighbors > 3)
+      if (board[x][y] == 1 && neighbors < 2) 
+      {
+        
+        next[x][y] = 0; // Loneliness die
+
+      }
+      else if (board[x][y] == 1 && neighbors > 3){
+      
         next[x][y] = 0; // Overpopulation die
+
+      }       
       else if (board[x][y] == 0 && neighbors == 3)
         next[x][y] = 1; // Reproduction birth
       else next[x][y] = board[x][y]; // Stasis stable
@@ -120,6 +159,39 @@ function generate() {
   let temp = board;
   board = next;
   next = temp;
+
+  generationNum++;
+}
+
+
+function printInitCoor(){
+  initCoorText.html('Initial pattern coordinate(0 generation): <br >' + initCoor.join('<br>'))
+}
+
+
+function printGeneration() {
+  generationNumText.html('Generation: ' + generationNum);
+}
+function printCoordinates() {
+  //let gliderCoordinates = findGliderCoordinates();
+  // Update the paragraph element's content with the coordinates
+  coordinatesText.html('Coordinates: ' + getCoordinates());
+}
+
+function getCoordinates() {
+  let livingCells = [];
+  for (let i = 0; i < columns; i++) {
+    for (let j = 0; j < rows; j++) {
+      if (board[i][j] == 1) {
+        livingCells.push(`[${i}, ${j}]`);
+      }
+    }
+  }
+  if (livingCells.length > 0) {
+    return ('Living Cells Coordinates:', livingCells);
+  } else {
+    return ('No living cells found');
+  }
 }
 
 /**
@@ -128,5 +200,7 @@ function generate() {
 function clearCanvas() {
   isPaused = false;
   init();
-  frameRate(8);
+  frameRate(2);
+  generationNum = 0;
+
 }
