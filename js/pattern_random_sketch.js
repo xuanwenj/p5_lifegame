@@ -1,4 +1,4 @@
-let w, columns, rows, board, next;
+let w, columns, rows, board, next, buttonPause;
 let isPaused = false;
 
 /**
@@ -32,7 +32,7 @@ function setup() {
   button.position(0, 600);
   button.mousePressed(clearCanvas);
 
-  let buttonPause = createButton('Pause');
+  buttonPause = createButton('Start');
   buttonPause.position(90, 600);
   buttonPause.mousePressed(switchPause);
   print('press button');
@@ -40,7 +40,11 @@ function setup() {
 
 function switchPause() {
   isPaused = !isPaused;
-  print('pause');
+  if(isPaused){
+    buttonPause.html('Pause');
+  } else {
+    buttonPause.html('Start');
+  }
 }
 /**
  * The draw() function is automatically called by p5.js in a loop, continuously after setup().
@@ -120,6 +124,7 @@ function generate() {
  */
 function clearCanvas() {
   isPaused = false;
+  buttonPause.html('Start');
   init();
   frameRate(8);
 }
