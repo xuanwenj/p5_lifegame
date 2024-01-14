@@ -16,7 +16,7 @@ const totalInit = 3;
 let initCoor = [];
 const buttonNames = [
   'Test still lifes ',
-  'Test oscillarors & spaceship',
+  'Test oscillators & spaceship',
   'Test border neighbors ',
 ];
 function setup() {
